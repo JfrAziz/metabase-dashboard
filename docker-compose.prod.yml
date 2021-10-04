@@ -1,7 +1,9 @@
 version: '3.8'
 
 networks: 
-  metabase-network:
+  nginx_network:
+    external: true
+  metabase_network:
 
 services:
   metabase:
@@ -19,9 +21,8 @@ services:
     volumes: 
       - ./volumes/metabase:/metabase-data
     networks: 
-      - metabase-network
-    ports:
-      - 3000:3000
+      - metabase_network
+      - nginx_network
   postgres:
     image: postgres:alpine
     container_name: postgres
@@ -32,4 +33,4 @@ services:
     volumes:
       - ./data/init.sql:/docker-entrypoint-initdb.d/1-init.sql
     networks: 
-      - metabase-network
+      - metabase_network
